@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     val checkbox1: CheckBox by lazy { findViewById(R.id.checkbox1) }
     val checkbox2: CheckBox by lazy { findViewById(R.id.checkbox2) }
     val checkbox3: CheckBox by lazy { findViewById(R.id.checkbox3) }
+    var score: Int = 0
 
     private fun play() {
         Toast.makeText(applicationContext, "Numerele sunt: ${number1.text} ${number2.text} ${number3.text}", Toast.LENGTH_SHORT).show()
@@ -102,7 +103,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1) {
-            Toast.makeText(applicationContext, "Score: $resultCode", Toast.LENGTH_SHORT).show()
+            score += resultCode
+            Toast.makeText(applicationContext, "Score: $score", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("SCORE", score)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        score = savedInstanceState.getInt("SCORE")
     }
 }
